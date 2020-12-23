@@ -1,0 +1,51 @@
+{
+  "id": "2288368",
+  "name": "honest_record_fe",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "88066",
+      "name": "lock",
+      "font_class": "lock",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "1567679",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "7239506",
+      "name": "lock",
+      "font_class": "lock1",
+      "unicode": "e6fc",
+      "unicode_decimal": 59132
+    },
+    {
+      "icon_id": "8450607",
+      "name": "user",
+      "font_class": "user1",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "13998411",
+      "name": "lock",
+      "font_class": "controlbar_lock_hov",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "18225924",
+      "name": "Lock",
+      "font_class": "Lock",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    }
+  ]
+}

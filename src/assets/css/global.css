@@ -5,3 +5,8 @@ body,
 	margin: 0;
 	padding: 0;
 }
+
+/* 面包屑导航区公共样式 */
+.el-breadcrumb {
+	margin-bottom: 20px;
+}

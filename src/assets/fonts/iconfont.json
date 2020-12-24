@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "903820",
+      "name": "通知",
+      "font_class": "tongzhi",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "1413433",
+      "name": "日志",
+      "font_class": "rizhi",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "7671373",
+      "name": "统计分析",
+      "font_class": "fenxi",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "8094206",
+      "name": "群组",
+      "font_class": "qunzu",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "13371316",
+      "name": "系统",
+      "font_class": "xitong",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "13799870",
+      "name": "档案",
+      "font_class": "danganjianying",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "14843441",
+      "name": "权限",
+      "font_class": "quanxian",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "15711148",
+      "name": "系统",
+      "font_class": "xitong1",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "15816240",
+      "name": "042方块",
+      "font_class": "042fangkuai",
+      "unicode": "e7bc",
+      "unicode_decimal": 59324
+    },
+    {
       "icon_id": "88066",
       "name": "lock",
       "font_class": "lock",

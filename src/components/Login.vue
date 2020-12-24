@@ -49,8 +49,8 @@
 			};
 			return {
 				loginForm: {
-					userId: '',
-					password: ''
+					userId: '100001',
+					password: '123456'
 				},
 				loginFormRules: { //表单项验证规则对象, 名称的定义必须和loginForm中一致
 				          userId: [ //属性名userId 要与loginForm中属性名userId一致
@@ -86,6 +86,7 @@
 						return
 					}else{
 						this.$message.success('登录成功')
+						window.sessionStorage.setItem('token',res.data.token)
 						this.$router.push('/home')																														
 					}
 					

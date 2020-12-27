@@ -3,7 +3,7 @@
 			<!-- 头部区 -->
 			<el-header>
 				<div>
-					<span>高校档案管理及分析决策系统</span>
+					<span>高校廉洁档案管理及分析决策系统</span>
 				</div>
 				<el-button type="infor" @click="logout">退出</el-button>
 			</el-header>
@@ -61,7 +61,7 @@
 						name: '用户管理',
 						icon: 'iconfont icon-qunzu',						
 						children: [
-							{id: '101',name: '用户列表',icon: 'iconfont icon-042fangkuai',path: '/user'}
+							{id: '101',name: '用户列表',icon: 'iconfont icon-042fangkuai',path: '/user'}							
 						]
 					},
 					{

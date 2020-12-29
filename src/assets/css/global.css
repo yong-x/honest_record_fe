@@ -4,6 +4,7 @@ body,
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	min-width: 1366px;
 }
 
 /* 面包屑导航区公共样式 */
@@ -14,4 +15,8 @@ body,
 .el-table {
 	margin-top: 15px;
 	font-size: 12px;
+}
+/* 表格分页区公共样式 */
+.el-pagination {
+	margin-top: 15px;
 }

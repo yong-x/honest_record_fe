@@ -22,7 +22,14 @@ import {
 	Table,
 	TableColumn,
 	Tag,
-	Pagination
+	Pagination,
+	Dialog,
+	RadioGroup,
+	Radio,
+	Switch,
+	Tooltip,
+	MessageBox 
+	
 	
 } from 'element-ui'
 
@@ -48,6 +55,13 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Tag)
 Vue.use(Pagination)
+Vue.use(Dialog)
+Vue.use(RadioGroup)
+Vue.use(Radio)
+Vue.use(Switch)
+Vue.use(Tooltip)
+
 
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm
 

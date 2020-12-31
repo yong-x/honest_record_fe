@@ -27,7 +27,7 @@
 				<el-col :span="5">
 					<el-select v-model="queryInfo.rId" placeholder="请选择角色">
 					    <el-option 	label="所有" value="-1"></el-option>
-						<el-option v-for="role in roleList" :key="role.rid" :label="role.rname" :value="role.rid"></el-option>					    
+						<el-option v-for="role in roleList" :key="role.rId" :label="role.rName" :value="role.rId"></el-option>					    
 					</el-select>					
 				</el-col>
 				<el-col :span="5">
@@ -86,7 +86,7 @@
 				  sortable>
 				  </el-table-column>
 				  <el-table-column
-				    prop="role.rname"
+				    prop="role.rName"
 				    label="角色"				   
 				    width="80">				   
 				  </el-table-column>				
@@ -156,12 +156,12 @@
 			</el-form-item>
 			<el-form-item label="所属部门" prop="dId" :label-width="labelWidth">
 			  <el-select v-model="addUserFrom.dId" placeholder="请选择部门">			     
-			  	 <el-option v-for="department in departmentList" :key="department.did" :label="department.dname" :value="department.did"></el-option>					    
+			  	 <el-option v-for="department in departmentList" :key="department.dId" :label="department.dName" :value="department.dId"></el-option>					    
 			  </el-select>
 			</el-form-item>
 			<el-form-item label="角色" prop="rId" :label-width="labelWidth">			  
 			  <el-select v-model="addUserFrom.rId" placeholder="请选择角色">			     
-			  	<el-option v-for="role in roleList" :key="role.rid" :label="role.rname" :value="role.rid"></el-option>					    
+			  	<el-option v-for="role in roleList" :key="role.rId" :label="role.rName" :value="role.rId"></el-option>					    
 			  </el-select>
 			</el-form-item>
 		  </el-form>
@@ -210,12 +210,12 @@
 			</el-form-item>
 			<el-form-item label="所属部门" prop="dId" :label-width="labelWidth">
 			  <el-select v-model="updateUserForm.dId" placeholder="请选择部门">			     
-			  	 <el-option v-for="department in departmentList" :key="department.did" :label="department.dname" :value="department.did"></el-option>					    
+			  	 <el-option v-for="department in departmentList" :key="department.dId" :label="department.dName" :value="department.dId"></el-option>					    
 			  </el-select>
 			</el-form-item>
 			<el-form-item label="角色" prop="rId" :label-width="labelWidth">			  
 			  <el-select v-model="updateUserForm.rId" placeholder="请选择角色">			     
-			  	<el-option v-for="role in roleList" :key="role.rid" :label="role.rname" :value="role.rid"></el-option>					    
+			  	<el-option v-for="role in roleList" :key="role.rId" :label="role.rName" :value="role.rId"></el-option>					    
 			  </el-select>
 			</el-form-item>
 			<el-form-item label="审核状态" :label-width="labelWidth">			  
@@ -405,14 +405,14 @@
 					}
 				})
 			},
-			deleteUser(userid){
+			deleteUser(userId){
 				this.$confirm('确定删除该用户吗?', '提示', {
 				          confirmButtonText: '确定',
 				          cancelButtonText: '取消',
 				          type: 'warning'
 				        }).then(async () => { //点击确定时回调
 				          
-						  const {data: res} = await this.$http.delete(`/faculty/delete/${userid}`)
+						  const {data: res} = await this.$http.delete(`/faculty/delete/${userId}`)
 						  if(res.code===0){
 						  	this.$message.success('删除成功')						  
 						  	this.doSearch()

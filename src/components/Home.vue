@@ -94,9 +94,9 @@
 						name: '系统管理',
 						icon: 'iconfont icon-xitong',
 						children: [
-							{id: '501',name: '举报类型',icon: 'iconfont icon-042fangkuai',path:'/accusetype'},
-							{id: '502',name: '问题分类',icon: 'iconfont icon-042fangkuai',path: '/problemtype'},
-							{id: '503',name: '问题领域',icon: 'iconfont icon-042fangkuai',path: '/problemfield'},
+							{id: '501',name: '举报类型',icon: 'iconfont icon-042fangkuai',path:'/accuse_type'},
+							{id: '502',name: '问题分类',icon: 'iconfont icon-042fangkuai',path: '/problem_type'},
+							{id: '503',name: '问题领域',icon: 'iconfont icon-042fangkuai',path: '/problem_field'},
 							{id: '504',name: '部门列表',icon: 'iconfont icon-042fangkuai',path: '/department'}
 						]
 					},

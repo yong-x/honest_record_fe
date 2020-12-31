@@ -5,6 +5,10 @@ import './plugins/element.js'
 import './assets/fonts/iconfont.css' //导入第三方阿里字体图标样式文件
 import './assets/css/global.css' //全局样式表，对所有组件生效
 
+import Authorized from "./components/Authorized.vue"; //引入自定义权限验证全局组件
+Vue.component("Authorized", Authorized);
+
+
 import axios from 'axios' //向后台进行数据请求的模块
 axios.defaults.baseURL = 'http://localhost:8088' //后台接口根路径
 

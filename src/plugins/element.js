@@ -28,7 +28,8 @@ import {
 	Radio,
 	Switch,
 	Tooltip,
-	MessageBox 
+	MessageBox,
+	Tree
 	
 	
 } from 'element-ui'
@@ -60,6 +61,7 @@ Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(Switch)
 Vue.use(Tooltip)
+Vue.use(Tree)
 
 
 Vue.prototype.$message = Message

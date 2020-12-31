@@ -87,6 +87,15 @@
 					}else{
 						this.$message.success('登录成功')
 						window.sessionStorage.setItem('token',res.data.token)
+						let actionPaths = []
+						res.data.payload.powers.forEach(power=>{
+							if(power.actionPath!=null){
+								actionPaths.push(power.actionPath)
+							}	
+						})
+						//保存用户的权限列表
+						window.sessionStorage.setItem('powers',res.data.payload.powers)
+						window.sessionStorage.setItem('actionPaths',actionPaths)
 						this.$router.push('/home')																														
 					}
 					

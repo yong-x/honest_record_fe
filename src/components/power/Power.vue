@@ -7,7 +7,7 @@
 		  <el-breadcrumb-item>权限列表</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- 卡片视图内容区 -->
-		<el-card class="box-card">		  		    			
+		<el-card class="box-card">
 			<!-- 输入框及搜索、添加区域 -->
 			<el-row :gutter="20">
 				<el-col :span="5">
@@ -40,7 +40,7 @@
 			      width="120">
 			    </el-table-column>
 				<el-table-column
-			      prop="pname"
+			      prop="pName"
 			      label="权限名称"
 			      sortable
 			      width="120">
@@ -52,7 +52,7 @@
 				  width="240">
 				</el-table-column>
 				<el-table-column
-				  prop="createTime"
+				  prop="updateTime"
 				  label="修改时间"
 				  sortable
 				  width="240">

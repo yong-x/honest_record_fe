@@ -6,6 +6,10 @@ import Welcome from '../components/Welcome.vue'
 import User from '../components/user/User.vue'
 import Power from '../components/power/Power.vue'
 import Role from '../components/power/Role.vue'
+import AccuseType  from '../components/setting/AccuseType.vue'
+import ProblemType  from '../components/setting/ProblemType.vue'
+import ProblemField  from '../components/setting/ProblemField.vue'
+import Department  from '../components/setting/Department.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,7 +20,11 @@ const routes = [
 		{ path: '/', component: Welcome},
 		{ path: '/user', component: User},
 		{ path: '/power', component: Power},
-		{ path: '/role', component: Role}
+		{ path: '/role', component: Role},
+		{ path: '/accuse_type', component: AccuseType},
+		{ path: '/problem_type', component: ProblemType},
+		{ path: '/problem_field', component: ProblemField},
+		{ path: '/department', component: Department},
 	]
   }
 ]

@@ -10,6 +10,7 @@ import AccuseType  from '../components/setting/AccuseType.vue'
 import ProblemType  from '../components/setting/ProblemType.vue'
 import ProblemField  from '../components/setting/ProblemField.vue'
 import Department  from '../components/setting/Department.vue'
+import Record  from '../components/record/Record.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
 		{ path: '/problem_type', component: ProblemType},
 		{ path: '/problem_field', component: ProblemField},
 		{ path: '/department', component: Department},
+		{ path: '/record', component: Record}
 	]
   }
 ]

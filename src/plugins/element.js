@@ -29,7 +29,8 @@ import {
 	Switch,
 	Tooltip,
 	MessageBox,
-	Tree
+	Tree,
+	DatePicker
 	
 	
 } from 'element-ui'
@@ -62,6 +63,7 @@ Vue.use(Radio)
 Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Tree)
+Vue.use(DatePicker)
 
 
 Vue.prototype.$message = Message

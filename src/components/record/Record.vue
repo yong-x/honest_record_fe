@@ -3,7 +3,7 @@
 		<!-- 面包屑导航区 -->
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-		  <el-breadcrumb-item>系统管理</el-breadcrumb-item>
+		  <el-breadcrumb-item>档案管理</el-breadcrumb-item>
 		  <el-breadcrumb-item>档案列表</el-breadcrumb-item>		  
 		</el-breadcrumb>
 		<!-- 卡片视图内容区 -->
@@ -71,7 +71,7 @@
 				</el-col>
 					
 				<el-col :span="5">
-					<el-button type="warning" round @click="">重置</el-button>
+					<el-button type="warning" round @click="resetSearch">重置</el-button>
 					<el-button type="primary" round @click="handleSearch">搜索</el-button>
 					<el-button type="success" round @click="addDialogVisible=true">添加</el-button>
 				</el-col>
@@ -139,6 +139,12 @@
 				  width="150">
 				</el-table-column>
 				<el-table-column
+				  prop="updateTime"
+				  label="修改时间"
+				  sortable
+				  width="150">
+				</el-table-column>
+				<el-table-column
 				    prop="checkState"
 				    label="审核状态"
 					width="100">
@@ -149,8 +155,8 @@
 				<el-table-column
 				    label="操作">
 				    <template v-slot="scope">
-				    	<el-button type="primary" size="mini" icon="el-icon-edit" @click="clickEdit(scope.row.dId)"></el-button>				  	
-				    	<el-button type="danger" size="mini" icon="el-icon-delete" @click="clickDelete(scope.row.dId)"></el-button>				  	
+				    	<el-button type="primary" size="mini" icon="el-icon-edit" @click="clickEdit(scope.row.aId)"></el-button>				  	
+				    	<el-button type="danger" size="mini" icon="el-icon-delete" @click="clickDelete(scope.row.aId)"></el-button>				  	
 				    </template>
 				</el-table-column>
 			</el-table>
@@ -160,11 +166,116 @@
 			      @current-change="handleCurrentChange"
 			      :current-page="queryInfo.pageNum"
 			      :page-size="queryInfo.pageSize"
-			      layout="total, prev, pager, next, jumper"
+				  :page-sizes="[5, 8, 10, 15]"
+			      layout="total, sizes, prev, pager, next, jumper"
 			      :total="total">
 			</el-pagination>
 		</el-card>
-		
+		<!-- 添加廉洁档案 -->
+		<el-dialog 
+		title="添加廉洁档案信息" 
+		:visible.sync="addDialogVisible"
+		width="50%"
+		center
+		@close="resetForm('addFormRef')">
+			<el-form :model="addForm" :rules="addAndEditFormRules" ref="addFormRef">
+				<el-form-item label="职工号" prop="accusedUserId" :label-width="labelWidth">
+					<el-input v-model="addForm.accusedUserId" clearable></el-input>
+				</el-form-item>
+				
+				<el-form-item label="姓名"  :label-width="labelWidth">
+					<!-- <el-input v-model="addForm.accusedUserName" :readonly="true"></el-input> -->	
+					<span>{{addForm.accusedUserName}}</span>
+				</el-form-item>
+				<el-form-item label="问题分类" prop="ptId" :label-width="labelWidth">
+				  <el-select v-model="addForm.ptId" placeholder="请选则问题分类">			     
+					<el-option v-for="problemType in problemTypeList" :key="problemType.ptId" :label="problemType.ptName" :value="problemType.ptId"></el-option>
+				  </el-select>
+				</el-form-item>
+				<el-form-item label="问题领域" prop="pfId" :label-width="labelWidth">
+				  <el-select v-model="addForm.pfId" placeholder="请选则问题领域">			     
+					<el-option v-for="problemField in problemFieldList" :key="problemField.pfId" :label="problemField.pfName" :value="problemField.pfId"></el-option>
+				  </el-select>
+				</el-form-item>
+				<el-form-item label="举报类型" prop="atId" :label-width="labelWidth">
+				  <el-select v-model="addForm.atId" placeholder="请选择举报类型">
+				  	<el-option v-for="accuseType in accuseTypeList" :key="accuseType.atId" :label="accuseType.atName" :value="accuseType.atId"></el-option>					    
+				  </el-select>
+				</el-form-item>
+				<el-form-item label="受理人职工号" prop="dealerUserId" :label-width="labelWidth">
+					<el-input v-model="addForm.dealerUserId" clearable></el-input>
+				</el-form-item>
+				<el-form-item label="受理人姓名" :label-width="labelWidth">
+					<!-- <el-input v-model="addForm.dealerUserName" :readonly="true"></el-input> -->
+					<span>{{addForm.dealerUserName}}</span>
+				</el-form-item>
+				<el-form-item label="举报时间" prop="accuseDate" :label-width="labelWidth">
+					<el-date-picker v-model.string="addForm.accuseDate" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择举报时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="受理时间" prop="dealDate" :label-width="labelWidth">
+					<el-date-picker v-model="addForm.dealDate" value-format="yyyy-MM-dd HH:mm:ss" type="datetime"  placeholder="选择受理时间"></el-date-picker>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+			  <el-button @click="addDialogVisible = false">取 消</el-button>
+			  <el-button type="primary" @click="handleSubmitAdd">确 定</el-button>
+			</div>
+		</el-dialog>
+		<!-- 修改廉洁档案 -->
+		<el-dialog 
+		title="添加廉洁档案信息" 
+		:visible.sync="editDialogVisible"
+		width="50%"
+		center
+		@close="resetForm('editFormRef')">
+			<el-form :model="editForm" :rules="addAndEditFormRules" ref="editFormRef">
+				<el-form-item label="档案编号" :label-width="labelWidth">
+					<el-input v-model="editForm.aId" readonly></el-input>
+				</el-form-item>
+				<el-form-item label="职工号" prop="accusedUserId" :label-width="labelWidth">
+					<el-input v-model="editForm.accusedUserId" readonly></el-input>
+				</el-form-item>
+				<el-form-item label="问题分类" prop="ptId" :label-width="labelWidth">
+				  <el-select v-model="editForm.ptId" placeholder="请选则问题分类">			     
+					<el-option v-for="problemType in problemTypeList" :key="problemType.ptId" :label="problemType.ptName" :value="problemType.ptId"></el-option>
+				  </el-select>
+				</el-form-item>
+				<el-form-item label="问题领域" prop="pfId" :label-width="labelWidth">
+				  <el-select v-model="editForm.pfId" placeholder="请选则问题领域">			     
+					<el-option v-for="problemField in problemFieldList" :key="problemField.pfId" :label="problemField.pfName" :value="problemField.pfId"></el-option>
+				  </el-select>
+				</el-form-item>
+				<el-form-item label="举报类型" prop="atId" :label-width="labelWidth">
+				  <el-select v-model="editForm.atId" placeholder="请选择举报类型">
+				  	<el-option v-for="accuseType in accuseTypeList" :key="accuseType.atId" :label="accuseType.atName" :value="accuseType.atId"></el-option>					    
+				  </el-select>
+				</el-form-item>
+				<el-form-item label="受理人职工号" prop="dealerUserId" :label-width="labelWidth">
+					<el-input v-model="editForm.dealerUserId" clearable></el-input>
+				</el-form-item>
+				<el-form-item label="举报时间" prop="accuseDate" :label-width="labelWidth">
+					<el-date-picker v-model.string="editForm.accuseDate" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择举报时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="受理时间" prop="dealDate" :label-width="labelWidth">
+					<el-date-picker v-model.string="editForm.dealDate" value-format="yyyy-MM-dd HH:mm:ss" type="datetime"  placeholder="选择受理时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="审核状态" :label-width="labelWidth">
+					<el-tooltip :content="editForm.checkState===0?'未审核':'已审核'" placement="right">
+						<el-switch
+							v-model.number="editForm.checkState"
+							active-color="#13ce66"
+							inactive-color="#ff4949"					
+							:active-value="1"
+							:inactive-value="0">
+						</el-switch>
+					</el-tooltip>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+			  <el-button @click="editDialogVisible = false">取 消</el-button>
+			  <el-button type="primary" @click="handleSubmitEdit">确 定</el-button>
+			</div>
+		</el-dialog>
 		
 	</div>
 	
@@ -173,10 +284,34 @@
 <script>
 	export default {
 		data(){
+			var validateUserId = async (rule, value, callback) => {
+					console.log('rule=>',rule)			       
+					const {data: res} = await this.$http.get(`/faculty/query/${value}`);
+			        console.log('res=>',res)	
+					if(res.code===0){ 
+			        	if(res.data!=null){ //该用户存在，验证通过
+							if(rule.field=='accusedUserId'){
+								this.addForm.accusedUserName = res.data.userName
+							}else if(rule.field=='dealerUserId'){
+								this.addForm.dealerUserName = res.data.userName
+							}
+							return callback();
+						}else{
+							if(rule.field=='accusedUserId'){
+								this.addForm.accusedUserName = null
+							}else if(rule.field=='dealerUserId'){
+								this.addForm.dealerUserName = null
+							}
+							return callback(new Error('该用户不存在'));
+						}												
+			        }else {
+						callback(new Error(res.message));			        	
+			        }	
+			};
 			return {
 				queryInfo: {
 					pageNum: 1,
-					pageSize: 4,
+					pageSize: 5,
 					accusedUserId: '',//被举报人职工号
 					dealerUserId: '',//档案受理人职工号
 					ptId: '',//问题分类
@@ -200,10 +335,30 @@
 				total: 0, //全部查询总条数
 				labelWidth: '150px',
 				addDialogVisible: false, //添加对话框是否显示
-				addForm: {},	//添加表单对象			
+				addForm: {},	//添加表单对象
 				addAndEditFormRules: { //添加和编辑表单绑定的验证规则对象
-					dName: [
-						{ required: true, message: '请输入部门名称', trigger: 'blur' }
+					accusedUserId: [
+						{ required: true, message: '请输入用户职工号', trigger: 'blur' },
+						{ validator: validateUserId, trigger: 'blur' }
+					],
+					dealerUserId: [
+						{ required: true, message: '请输入受理人职工号', trigger: 'blur' },
+						{ validator: validateUserId, trigger: 'blur' }
+					],
+					ptId: [
+						{ required: true, message: '请选择问题分类', trigger: 'change' }
+					],
+					pfId: [
+						{ required: true, message: '请选择问题领域', trigger: 'change' }
+					],
+					atId: [
+						{ required: true, message: '请选择举报类型', trigger: 'change' }
+					],
+					accuseDate: [
+						{ required: true, message: '请选择举报时间', trigger: 'change' }
+					],
+					dealDate: [
+						{ required: true, message: '请选择受理时间', trigger: 'change' }
 					]
 				},
 				editDialogVisible: false ,//更新对话框是否显示
@@ -243,8 +398,22 @@
 				    var s = date.getSeconds();
 				    return y + '-' + (M < 10 ? ('0' + M) : M) + '-' + (d < 10 ? ('0' + d) : d) + " " + (H < 10 ? ('0' + H) : H) + ":" + (m < 10 ? ('0' + m) : m) + ":" + (s < 10 ? ('0' + s) : s);
 			},
-			resetForm(formRef) { //重置表单
-			        this.$refs[formRef].resetFields();
+			resetForm(formRef) { //重置表单			        
+					this.addForm={}
+					this.$refs[formRef].resetFields();
+			},
+			resetSearch(){			//重置搜索条件	
+				this.queryInfo.accusedUserId=''
+				this.queryInfo.dealerUserId= ''
+				this.queryInfo.ptId= ''
+				this.queryInfo.pfId= '' 
+				this.queryInfo.atId= ''
+				this.queryInfo.checkState= ''
+				this.queryInfo.accuseDateStart= ''
+				this.queryInfo.accuseDateEnd= ''
+				this.queryInfo.dealDateStart= ''
+				this.queryInfo.dealDateEnd= ''
+				this.doSearch()
 			},
 			handleSizeChange(val) { //页面大小改变时
 			    console.log(`每页 ${val} 条`)
@@ -258,14 +427,14 @@
 				this.doSearch()
 			},
 			handleSearch(){ //点击查询时
-				this.queryInfo.pageSize = 4
+				this.queryInfo.pageSize = 5
 				this.queryInfo.pageNum = 1
 				this.doSearch()
 			},
 			handleSubmitAdd(){ //添加表单点击确定时
 				this.$refs.addFormRef.validate(async valid=>{
 					if(!valid) return console.log('error commit!')
-					var {data: res} = await this.$http.post('/department/add',this.addForm)
+					var {data: res} = await this.$http.post('/accusation/add',this.addForm)
 					console.log(res)
 					if(res.code!==0){ //服务器返回错误信息
 						this.$message.error(res.message)
@@ -279,8 +448,8 @@
 				})
 			},
 			async clickEdit(id){ //点击编辑按钮时
-				const {data: res} = await this.$http.get(`/department/query/${id}`);
-				console.log('query by userId res=>',res)
+				const {data: res} = await this.$http.get(`/accusation/query/${id}`);
+				console.log('query by aId res=>',res)
 				if(res.code===0){
 					this.editForm = res.data
 				}else{
@@ -291,7 +460,7 @@
 			handleSubmitEdit(){ //编辑表单点击确定时
 				this.$refs.editFormRef.validate(async valid=>{
 					if(!valid) return console.log('error commit!')
-					const {data: res} = await this.$http.put(`/department/update`,this.editForm)
+					const {data: res} = await this.$http.put(`/accusation/update`,this.editForm)
 					if(res.code===0){
 						this.editDialogVisible = false
 						this.$message.success('更新成功')
@@ -303,13 +472,13 @@
 				})
 			},
 			clickDelete(id){ //点击删除按钮时
-				this.$confirm('确定删除该部门吗?', '提示', {
+				this.$confirm('确定删除该条档案吗?', '提示', {
 				          confirmButtonText: '确定',
 				          cancelButtonText: '取消',
 				          type: 'warning'
 				        }).then(async () => { //点击确定时回调
 				          
-						  const {data: res} = await this.$http.delete(`/department/delete/${id}`)
+						  const {data: res} = await this.$http.delete(`/accusation/delete/${id}`)
 						  if(res.code===0){
 						  	this.$message.success('删除成功')						  
 						  	this.doSearch()

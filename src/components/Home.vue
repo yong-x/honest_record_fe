@@ -74,7 +74,7 @@
 					},
 					{
 						id: '3',
-						name: '分析决策',
+						name: '分析报告',
 						icon: 'iconfont icon-fenxi',
 						children: [
 							{id: '301',name: '案件统计',icon: 'iconfont icon-042fangkuai',path: '/analysis'}

@@ -155,8 +155,12 @@
 				<el-table-column
 				    label="操作">
 				    <template v-slot="scope">
-				    	<el-button type="primary" size="mini" icon="el-icon-edit" @click="clickEdit(scope.row.aId)"></el-button>				  	
-				    	<el-button type="danger" size="mini" icon="el-icon-delete" @click="clickDelete(scope.row.aId)"></el-button>				  	
+				    	<el-button type="primary" size="mini" icon="el-icon-edit" @click="clickEdit(scope.row.aId)"></el-button>				  					    	
+						<el-tooltip class="item" effect="dark" :hide-after="1000" content="生成决策书" placement="top">
+						      <el-button type="info" size="mini" icon="el-icon-document" @click="clickDecision(scope.row)"></el-button>
+						</el-tooltip>	
+						<a id="download" style="display: none;" class='download' href='http://localhost:8088/faculty/download' title="决策书下载"></a>
+						<el-button type="danger" style="margin-left: 10px;" size="mini" icon="el-icon-delete" @click="clickDelete(scope.row.aId)"></el-button>				  	
 				    </template>
 				</el-table-column>
 			</el-table>
@@ -276,6 +280,32 @@
 			  <el-button type="primary" @click="handleSubmitEdit">确 定</el-button>
 			</div>
 		</el-dialog>
+		<!-- 生成用户决策书 -->
+		<el-dialog 
+		title="生成决策书" 
+		:visible.sync="decisionDialogVisible"
+		width="50%"
+		center
+		@close="resetForm('decisionFormRef')">
+			<el-form id="decisionFormId" :model="decisionForm"  ref="decisionFormRef">
+				<el-form-item label="教工号" :label-width="labelWidth">
+					<el-input v-model="decisionForm.accusedUserId" readonly></el-input>
+				</el-form-item>
+				<el-form-item label="姓名" :label-width="labelWidth">
+					<el-input v-model="decisionForm.userName" readonly></el-input>
+				</el-form-item>
+				<el-form-item label="回复单位名称" prop="replyName" :label-width="labelWidth" :rules="[{ required: true, message: '请输入回复单位名称', trigger: 'blur' }]">
+					<el-input v-model="decisionForm.replyName"></el-input>
+				</el-form-item>
+				<el-form-item label="落款单位名称" prop="inscribeName" :label-width="labelWidth" :rules="[{ required: true, message: '请输入落款单位名称', trigger: 'blur' }]">
+					<el-input v-model="decisionForm.inscribeName"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+			  <el-button @click="decisionDialogVisible = false">取 消</el-button>
+			  <el-button type="primary" @click="handleSubmitDecision">确 定</el-button>
+			</div>
+		</el-dialog>
 		
 	</div>
 	
@@ -362,7 +392,14 @@
 					]
 				},
 				editDialogVisible: false ,//更新对话框是否显示
-				editForm: {} //编辑表单对象
+				editForm: {} ,//编辑表单对象
+				decisionDialogVisible: false ,//生成用户决策书对话框可见性
+				decisionForm: { //生成用户决策书表单
+					accusedUserId:'',
+					userName:'',
+					replyName:'',
+					inscribeName:'中共xxxx大学纪律检查委员会'
+				} 
 			}
 		},
 		async created() {
@@ -488,6 +525,24 @@
 				        }).catch(() => { //点击取消和点击右上角关闭时 回调
 						  this.$message.info('已取消删除')
 				});
+			},
+			clickDecision(row){
+				this.decisionForm.accusedUserId = row.accusedUserId
+				this.decisionForm.userName = row.faculty.userName
+				this.decisionDialogVisible=true
+			},
+			handleSubmitDecision(){
+				this.$refs.decisionFormRef.validate(async valid=>{
+					if(!valid) return console.log('error commit!')
+					const res = await this.$http.post(`/faculty/decision`,this.decisionForm)
+
+					this.decisionDialogVisible=false
+					if(res.data.code!==0){ //服务器返回错误信息
+						return this.$message.error('生成失败')
+					}else{
+						document.getElementById("download").click()
+					}
+				})
 			}
 		},
 		watch: {

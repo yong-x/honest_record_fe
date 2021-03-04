@@ -227,7 +227,7 @@
 		</el-dialog>
 		<!-- 修改廉洁档案 -->
 		<el-dialog 
-		title="添加廉洁档案信息" 
+		title="修改廉洁档案信息" 
 		:visible.sync="editDialogVisible"
 		width="50%"
 		center

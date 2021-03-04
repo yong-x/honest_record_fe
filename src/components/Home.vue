@@ -113,8 +113,8 @@
 						name: '日志管理',
 						icon: 'iconfont icon-rizhi',
 						children: [
-							{id: '701',name: '登录日志',icon: 'iconfont icon-042fangkuai',path: '/loginlog'},							
-							{id: '702',name: '操作日志',icon: 'iconfont icon-042fangkuai',path: '/operatelog'}							
+							{id: '701',name: '日志列表',icon: 'iconfont icon-042fangkuai',path: '/loglist'},							
+														
 						]
 					}
 				],
@@ -177,6 +177,5 @@
 			cursor: pointer;
 		}
 		
-	}
-		
+	}		
 </style>

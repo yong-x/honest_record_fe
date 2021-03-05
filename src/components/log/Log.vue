@@ -87,7 +87,7 @@
 				<el-table-column			      
 			      label="操作">
 				  <template v-slot="scope">
-				  	<el-button v-if="scope.row.operatorName!='用户登录'" type="primary" size="mini" icon="el-icon-edit" @click="clickEdit(scope.row.logType)"></el-button>				  	
+				  	<el-button v-if="scope.row.operatorName!='用户登录'" type="primary" size="mini" icon="el-icon-edit" @click="clickEdit(scope.row.logType,scope.row.operatorName)"></el-button>				  	
 				  	<el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteLog(scope.row.lId)"></el-button>				  	
 				  </template>
 			    </el-table-column>				
@@ -106,7 +106,7 @@
 		<!-- 日志详情对话框 -->
 		<!-- 修改廉洁档案 -->
 		<el-dialog 
-		title="所操作的廉洁档案信息" 
+		:title="editDialogTitle" 
 		:visible.sync="editDialogVisible"
 		width="50%"
 		center
@@ -220,8 +220,9 @@
 				total: 0,
 				addDialogVisible: false, //添加用户对话框是否显示
 				labelWidth: '100px',
-
+				
 				editDialogVisible: false ,//更新对话框是否显示
+				editDialogTitle: '', //编辑对话框的标题
 				editForm: {} ,//编辑表单对象
 				addAndEditFormRules: { //添加和编辑表单绑定的验证规则对象
 					accusedUserId: [
@@ -287,9 +288,9 @@
 				this.queryInfo.pageNum = 1
 				this.doSearch()	
 			},
-			async clickEdit(id){ //点击编辑按钮时
-				console.log(id)
-				
+			async clickEdit(id,operatorName){ //点击编辑按钮时
+				console.log(id+' + '+operatorName)
+				this.editDialogTitle='所'+operatorName.substr(0,2)+'的廉洁档案信息'
 				const {data: res} = await this.$http.get(`/accusation/query/${id}`);
 				console.log('query by aId res=>',res)
 				if(res.code===0){
